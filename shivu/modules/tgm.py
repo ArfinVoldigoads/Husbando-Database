@@ -38,19 +38,20 @@ async def tgm_command(update: Update, context: CallbackContext) -> None:
                 )
 
             # Debug: Periksa respons
-            await update.message.reply_text(f"Response status: {response.status_code}, Response text: {response.text}")
+            if response.status_code == 200:
+                response_data = response.json()
+                if response_data.get("success") and "files" in response_data:
+                    uguu_url = response_data["files"][0]["url"]
 
-            # Periksa apakah unggahan berhasil
-            if response.status_code == 200 and "https://" in response.text:
-                uguu_url = response.text.strip()  # Dapatkan URL dari respons
-                
-                # Kirim pesan dengan tautan media
-                await update.message.reply_text(
-                    f"Here is the link to the media: {uguu_url}",
-                    reply_markup=InlineKeyboardMarkup([
-                        [InlineKeyboardButton("Open Media", url=uguu_url)]
-                    ])
-                )
+                    # Kirim pesan dengan tautan media
+                    await update.message.reply_text(
+                        f"Here is the link to the media: {uguu_url}",
+                        reply_markup=InlineKeyboardMarkup([
+                            [InlineKeyboardButton("Open Media", url=uguu_url)]
+                        ])
+                    )
+                else:
+                    await update.message.reply_text("Failed to parse the response from Uguu.se.")
             else:
                 await update.message.reply_text("Failed to upload the media to Uguu.se. Please try again later.")
         
