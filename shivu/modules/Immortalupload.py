@@ -3,7 +3,7 @@ from pymongo import ReturnDocument
 from motor.motor_asyncio import AsyncIOMotorClient
 from telegram import Update, InlineQueryResultVideo
 from telegram.ext import CommandHandler, CallbackContext
-from shivu import application, sudo_users, collection, db, CHARA_CHANNEL_ID, SUPPORT_CHAT
+from shivu import application, sudo_users, CHARA_CHANNEL_ID, SUPPORT_CHAT
 
 mongo_url = 'mongodb+srv://Husbando:Husbando@cluster0.lai7z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 lol = AsyncIOMotorClient(mongo_url)
